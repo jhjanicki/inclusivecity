@@ -1,0 +1,8 @@
+public/favicon-32x32.png
+public/robots.txt
+.*
+public/neighborhoods.js
+public/rotterdam_neighbourhoods.geojson
+*.txt
+*.json
+*.csv

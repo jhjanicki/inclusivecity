@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Rotterdam</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="neighborhoods.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      h2 {
+        font-size: 14px;
+      }
+
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      #console {
+        opacity: 0.9;
+        position: absolute;
+        width: 350px;
+        height: 340px;
+        margin: 10px;
+        padding: 10px 20px 10px 30px;
+        background-color: #f0f0f1;
+        border-radius: 5px;
+        z-index: 25;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08),
+          0 1px 3px 1px rgba(66, 66, 66, 0.16);
+      }
+
+      .mapboxgl-popup {
+        min-width: 280px !important;
+        font-family: 'Open Sans', sans-serif;
+        text-align: left;
+        z-index: 20;
+        border-radius: 10px;
+      }
+
+      .mapboxgl-popup-content {
+        font-family: 'Open Sans', sans-serif;
+        padding: 0;
+      }
+
+      .mapboxgl-popup-content h3 {
+        text-align: left;
+        font-size: 16px;
+        margin: 0;
+        display: block;
+        padding: 15px;
+        font-weight: 700;
+        margin-top: -5px;
+      }
+
+      .mapboxgl-popup-content h4 {
+        padding: 8px;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .mapboxgl-popup.customBg h3 {
+        color: #fff;
+        border-radius: 5px 5px 0px 0px;
+      }
+
+      .mapboxgl-container {
+        cursor: pointer;
+      }
+
+      .mapboxgl-popup-anchor-top > .mapboxgl-popup-content {
+        margin-top: 3px;
+      }
+
+      .mapboxgl-popup-close-button {
+        transform: scale(2);
+        color: #fff;
+        padding: 0px;
+        margin-right: 10px;
+      }
+
+      .mapboxgl-popup-close-button:hover,
+      .mapboxgl-popup-close-button:active,
+      .mapboxgl-popup-close-button:target {
+        background: none !important;
+        border: none !important;
+        outline: none !important;
+        color: #cfcfcf;
+        transition: all 0.5s ease;
+      }
+
+      #close {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        fill: #767676;
+        right: 5px;
+        top: 5px;
+      }
+
+      #close:hover {
+        fill: #cfcfcf;
+        transition: all 0.5s ease;
+        cursor: pointer;
+      }
+
+      .itemWrapper {
+        margin-top: -10px;
+      }
+
+      .item {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        margin-left: -8px;
+      }
+
+      @media screen and (max-width: 768px) {
+        .mapboxgl-popup {
+          max-width: 220px !important;
+          min-width: 220px !important;
+        }
+      }
+
+      @media screen and (max-width: 576px) {
+        .mapboxgl-popup {
+          transform: none !important;
+          top: auto !important;
+          bottom: 20px !important;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-center .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+        .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {
+          display: none !important;
+        }
+        #console {
+          width: 280px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <!-- <div id='console'>
+      <h3> Side panel for toggle buttons</h3>
+  </div> -->
+
+    <script>
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoiamhqYW5pY2tpIiwiYSI6Il9vb1ZlWnMifQ.zJie3Sr8zh3h5rR8IBMB2A';
+
+      let map = new mapboxgl.Map({
+        container: 'map', // container element id
+        style: 'mapbox://styles/jhjanicki/ckrukpn7t13zy18o82tq8o7wp',
+        center: [4.3272, 51.929], // initial map center in [lon, lat]
+        zoom: 10,
+        minZoom: 1,
+      });
+
+      let popup;
+
+      map.on('load', function () {
+        init();
+        map.addControl(new mapboxgl.NavigationControl());
+      });
+
+      function init() {
+        map.addSource('neighborhoods', {
+          type: 'geojson',
+          data: neighborhoods,
+        });
+
+        map.addLayer(
+          {
+            id: 'neighborhoodsFill',
+            type: 'fill',
+            source: 'neighborhoods',
+            paint: {
+              'fill-color': '#fb6a4a',
+              'fill-opacity': 0.9,
+            },
+          },
+          'settlement-subdivision-label'
+        );
+
+        map.addLayer(
+          {
+            id: 'neighborhoodsLines',
+            type: 'line',
+            source: 'neighborhoods',
+            paint: {
+              'line-color': 'black',
+              'line-opacity': 1,
+              'line-width': 0.5,
+            },
+          },
+          'settlement-subdivision-label'
+        );
+
+        map.on('click', 'neighborhoodsFill', function (e) {
+          map.getCanvas().style.cursor = 'pointer';
+          const neighbourhood = e.features[0].properties.neighbourhood;
+
+          const popupClass = '';
+
+          popup = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: true,
+            className: popupClass,
+          })
+            .setHTML(`<h3 class="popupClass"><b>${neighbourhood}</b></h3>`)
+            .setLngLat([longitude, latitude]) //need to get lat/lon for each neighborhood
+            .addTo(map);
+        });
+
+        map.on('mouseleave', function () {
+          map.getCanvas().style.cursor = '';
+        });
+      }
+    </script>
+  </body>
+</html>

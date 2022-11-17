@@ -1,0 +1,36 @@
+.profileImg{
+    width:120px;
+}
+
+.profile p{
+    padding:30px;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+  }
+
+  /* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.row{
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 768px) {
+
+    .column {
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+      }
+ }

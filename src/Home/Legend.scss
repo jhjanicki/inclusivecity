@@ -1,0 +1,88 @@
+.square{
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  display: block;
+  z-index: 1000;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 3px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.line{
+  width: 20px;
+  height: 3px;
+  display: block;
+  z-index: 1000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 3px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.square2 {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  z-index: 1000;
+  margin: 0;
+}
+
+.square3 {
+  width: 20px;
+  height: 20px;
+  z-index: 1000;
+  margin-right: 5px;
+  border: 1px solid black;
+  padding-right:18px;
+}
+
+.inline{
+  display: inline-block;
+}
+
+.inline2{
+  display: inline;
+}
+
+.align-left{
+  text-align: left;
+}
+
+.legendWrapper {
+  position: relative;
+}
+
+.legendTitle{
+  margin-top: 35px;
+  margin-bottom: 5px;
+}
+
+.key {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1000;
+  margin: 0px;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0.5em;
+  border-radius: 0.25em;
+  padding-left: 1.75em;
+}
+
+.rowLegend {
+  margin: 0px;
+}
+
+#xaxis, #yaxis{
+  font-size:12px;
+}
+
+#yaxis {
+  transform: rotate(-90deg);
+  transform-origin: left top 0;
+  position: absolute;
+  bottom:10px;
+  left: 2px;
+  text-align: left;
+}

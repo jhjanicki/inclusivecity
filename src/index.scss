@@ -1,0 +1,20 @@
+/* Brand variables */
+:root {
+  --text-dark: #141414;
+  --primary-purple: #BF9FBA;
+  --secondary-purple: #856C8C;
+  --primary-black: #130F10;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

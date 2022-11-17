@@ -1,0 +1,50 @@
+/* Mapbox popup related */
+.mapboxgl-popup {
+  min-width: 200px;
+  text-align: left;
+  z-index: 1000;
+  border-radius: 10px;
+}
+.mapboxgl-popup-content {
+  padding: 0px;
+}
+.mapboxgl-popup-content h3 {
+  text-align: left;
+  font-size: 16px;
+  padding: 15px 5px;
+  display: block;
+  font-weight: 700;
+  margin-top: -5px;
+  color: white;
+}
+
+.mapboxgl-popup-content h4 {
+  padding: 0px 5px 5px 5px;
+  margin-top: -10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.mapboxgl-container {
+  cursor: pointer;
+}
+
+.mapboxgl-popup-close-button {
+  transform: scale(2);
+  color: #fff;
+  margin-right: 0px;
+}
+.mapboxgl-popup-close-button:hover,
+.mapboxgl-popup-close-button:active,
+.mapboxgl-popup-close-button:target,
+button:hover,
+button:active,
+button:target,
+button {
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  color: #cfcfcf;
+  transition: all 0.5s ease;
+}
+
